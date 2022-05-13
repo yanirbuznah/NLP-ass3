@@ -26,29 +26,19 @@ def count_context_by_dep(counts, word_to_idx, s, index):
 
     head = s['LEMMA'][s['HEAD'][index]]
     head_idx = word_to_idx[head]
-    t = (head_idx, 1, dep_type)
-    if t not in counts[word_idx].keys():
-        counts[word_idx][t] = 1
-    else:
-        counts[word_idx][t] += 1
-    t = (word_idx, -1, dep_type)
 
-    if t not in counts[head_idx].keys():
-        counts[head_idx][t] = 1
-    else:
-        counts[head_idx][t] += 1
+    counts[word_idx][(head_idx, 1, dep_type)] += 1
+    counts[head_idx][(word_idx, -1, dep_type)] += 1
+
+
 
 
 def context_counter(sentences, words_to_idx, idx_to_words, task='full_window'):
     counts = defaultdict(Counter)
-    # context_counter = Counter(idx_to_words)
-    # for i in context_counter.keys():
-    #     context_counter[i] = 0
     for s in sentences:
         s.index = np.arange(1, len(s) + 1)
         for i, w in enumerate(s['LEMMA']):
-            # if w not in counts.keys():
-            #     counts[w] = Counter()
+
             if task == 'full_window':
                 count_context_in_range(counts, words_to_idx, s['LEMMA'], i + 1, sys.maxsize)
             elif task == '2_window':
@@ -66,11 +56,11 @@ def count_context_in_range(counts, word_to_idx, s, index, window=2):
     word_idx = word_to_idx[s[index]]
     for j in range(start, index):
         context_idx = word_to_idx[s[j]]
-        counts[word_idx][context_idx] = 1 if context_idx not in counts[word_idx] else counts[word_idx][context_idx] + 1
+        counts[word_idx][context_idx] += 1
 
     for j in range(index + 1, end):
         context_idx = word_to_idx[s[j]]
-        counts[word_idx][context_idx] = 1 if context_idx not in counts[word_idx] else counts[word_idx][context_idx] + 1
+        counts[word_idx][context_idx] += 1
 
 
 #
@@ -106,8 +96,8 @@ def main():
     context_list2 = sorted(context_list2.items(), key=lambda x: x[1], reverse=True)
 
     counts = context_counter(list_of_sentences, words_to_idx, idx_to_words, task='dep_type')
-    context_list2 = {k: sum(v.values()) for k, v in counts.items()}
-    context_list2 = sorted(context_list2.items(), key=lambda x: x[1], reverse=True)
+    # context_list3 = {k: sum(v.values()) for k, v in counts.items()}
+    # context_list3 = sorted(context_list3.items(), key=lambda x: x[1], reverse=True)
 
 
 if __name__ == '__main__':
