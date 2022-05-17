@@ -4,6 +4,8 @@ from collections import defaultdict, Counter
 import numpy as np
 import pandas as pd
 
+FUNCTION_WORDS = {'to', 'the', 'of', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he', 'she'}
+
 
 def read_table_from_file(file_name):
     df = pd.read_csv(file_name, sep='\t', header=None)
@@ -51,32 +53,29 @@ def context_counter(sentences, words_to_idx, idx_to_words, task='full_window'):
 
 def count_context_in_range(counts, word_to_idx, s, index, window=2):
     start = max(1, index - window)
-    end = min(len(s) + 1, index + window + 1)
+    end = min(len(s) + 1, index + window)
     # s = s.LEMMA
     word_idx = word_to_idx[s[index]]
-    for j in range(start, index):
-        context_idx = word_to_idx[s[j]]
-        counts[word_idx][context_idx] += 1
+    j = index - 1
+    while j >= start and j > 0:
+        if s[j] in FUNCTION_WORDS:
+            start -= 1
+        else:
+            context_idx = word_to_idx[s[j]]
+            counts[word_idx][context_idx] += 1
+        j -= 1
 
-    for j in range(index + 1, end):
-        context_idx = word_to_idx[s[j]]
-        counts[word_idx][context_idx] += 1
+    j = index + 1
+    while j <= end and j <= len(s):
+        if s[j] in FUNCTION_WORDS:
+            end += 1
+        else:
+            context_idx = word_to_idx[s[j]]
+            counts[word_idx][context_idx] += 1
+        j += 1
 
 
-#
-# def count_context_in_range(context_counter, word_to_idx, s, index, window=2):
-#     start = max(1, index - window)
-#     end = min(len(s), index + window + 1)
-#
-#     for j in range(start, index):
-#         # context_idx = word_to_idx[s[j]]
-#         context_counter[s['LEMMA'][j]] += 1
-#         counts[word_idx][context_idx] = 1 if context_idx not in counts[word_idx] else counts[word_idx][context_idx] + 1
-#
-#
-#     for j in range(index + 1, end):
-#         # context_idx = word_to_idx[s[j]]
-#         context_counter[s['LEMMA'][j]] += 1
+
 
 def main():
     file_name = sys.argv[1]
