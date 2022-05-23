@@ -88,6 +88,7 @@ import pandas as pd
 # check the head of the IN word - in this case 4
 # if its the target word then find another word which head is the preposition (IN) - in this case 7
 # save a context for the target word (4): (7, adpmod-for,1/-1)
+from scipy.sparse import csr_matrix
 
 FUNCTION_WORDS = {'to', 'the', 'of', 'and', 'a', 'in', 'is', 'it', 'you', 'that', 'he', 'she'}
 
@@ -244,6 +245,7 @@ def pmi_from_matrix(matrix):
                 #     if i not in sparse_pmi_matrix:
                 #         sparse_pmi_matrix[i] = dict()
                 #     sparse_pmi_matrix[i][j] = pmi
+        pmi_matrix[i, :] = pmi_matrix[i,:] / np.linalg.norm(pmi_matrix[i:,])
 
 
     sparse_pmi_matrix = sparse_matrix_to_dict(pmi_matrix)
@@ -275,7 +277,7 @@ def cosine_with_sparse_matrix(matrix, fliped_matrix, u):
         for v in matrix[att]:
             if v not in dt:
                 dt[v] = 0
-            dt[v] += fliped_matrix[u][att] * matrix[att][v]
+            dt[v] += fliped_matrix[u][att] * matrix[v][att]
     return dt
 
 
@@ -294,6 +296,7 @@ def cosine_similarity_matrix(pmi_matrix, words):
 def calc_pmi(context_list, counts, words):
     context_list = {k: v for k, v in context_list.items() if v >= 75}
     counts_matrix = vectorize_counts(counts, words, context_list)
+    sparse = csr_matrix(counts_matrix)
     pmi_matrix , sparse_pmi_matrix, fliped_pmi_matrix = pmi_from_matrix(counts_matrix)
     # cosine_matrix = cosine_similarity_matrix(pmi_matrix, words)
     # write_count_to_file(file_name, context_list, idx_to_words)
