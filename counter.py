@@ -200,9 +200,9 @@ def k_most_similar(pmi_matrix, flipped_pmi_matrix, u, k=20, with_same=False):
     similarity_with_all = cosine_with_sparse_matrix(pmi_matrix, flipped_pmi_matrix, u)
     if not with_same:
         similarity_with_all[u] = -1
-    x = np.argsort(similarity_with_all)[-k:] if with_same else np.argsort(similarity_with_all)[-k - 1: -1]
+    x = np.argsort(similarity_with_all)[-k:][::-1] if with_same else np.argsort(similarity_with_all)[-k - 1: -1][::-1]
 
-    return list(reversed(x))
+    return list(x)
 
 
 def calc_similar_to_words(words, pmi_matrix, flipped_pmi_matrix, word_to_idx):
@@ -264,6 +264,16 @@ def value_counts(list_of_sentences):
     return counts.most_common()
 
 
+def write_best_contexts_to_file(pmi_matrix, test_words,words_to_idx, idx_to_words,file_name='top20contexts.txt',k=20):
+    with open(file_name,'w', encoding='utf-8') as f:
+        for word in test_words:
+            f.write(f"{word}\n")
+            x = np.argsort(pmi_matrix[words_to_idx[word]])[-k:][::-1]
+            for i in x:
+                f.write(f"{idx_to_words[i]}\n")
+            f.write(f"{'*'*9}\n")
+
+
 def main():
     over_all_time = time.time()
     test_words = ['car', 'bus', 'hospital', 'hotel', 'gun', 'bomb', 'horse', 'fox', 'table', 'bowl', 'guitar', 'piano']
@@ -310,6 +320,10 @@ def main():
     similariries_full_window = calc_similar_to_words(words_to_test, sparse_matrix_full, fliped_sparse_matrix_full,
                                                      word_to_idx)
     print("calc_similar_to_words: ", time.time() - start)
+    write_best_contexts_to_file(pmi_matrix_full_window, words_to_test, word_to_idx, idx_to_word,file_name='top20contexts_full.txt')
+
+
+
     # count context2
     list_of_sentences = list_generator(file_name)
     start = time.time()
@@ -324,6 +338,7 @@ def main():
     similariries_2_window = calc_similar_to_words(words_to_test, sparse_matrix_two, fliped_sparse_matrix_two,
                                                   word_to_idx)
     print("calc_similar_to_words: ", time.time() - start)
+    write_best_contexts_to_file(pmi_matrix_two_window, words_to_test, word_to_idx, idx_to_word,file_name='top20contexts_2.txt')
 
     # count context3
     start = time.time()
@@ -337,7 +352,10 @@ def main():
     print("calc_pmi: ", time.time() - start)
     start = time.time()
     similariries_dep = calc_similar_to_words(words_to_test, sparse_matrix_dep, fliped_sparse_matrix_dep, word_to_idx)
+    write_best_contexts_to_file(pmi_matrix_dep, words_to_test, word_to_idx, idx_to_word,file_name='top20contexts_dep.txt')
     print("calc_similar_to_words: ", time.time() - start)
+
+
     write_to_file_most_similars(similariries_full_window, similariries_2_window, similariries_dep, words_to_test,
                                 idx_to_word)
     print(f"over all time: {time.time() - over_all_time}")
