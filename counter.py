@@ -4,7 +4,6 @@ import time
 from collections import defaultdict, Counter
 
 import numpy as np
-import pandas as pd
 from scipy.sparse import csr_matrix
 
 FUNCTION_WORDS = {
@@ -39,32 +38,10 @@ def write_count_to_file(file_name, words_counts, idx_to_word, k=50):
             f.write(f"{idx_to_word[idx]} {str(count)}\n")
 
 
-def read_table_from_file(file_name):
-    df = pd.read_csv(file_name, sep="\t", header=None, na_filter=False)
-    df.columns = [
-        "ID",
-        "FORM",
-        "LEMMA",
-        "COARSE-POS",
-        "FINE-POS",
-        "-",
-        "HEAD",
-        "DEP-TYPE",
-        "-",
-        "-",
-    ]
-    # df.drop(set(df.columns) - {'ID', 'FORM', 'LEMMA', 'HEAD'}, axis=1, inplace=True)
-    df.drop(["COARSE-POS", "-", "-", "-"], axis=1, inplace=True)
-    print(df.shape)
-    print(df.head())
-    return df
-
-
 def count_context_by_dep(counts, context, word_to_idx, s, index):
     word_idx = word_to_idx[s["LEMMA"][index]]
     dep_type = s["DEP-TYPE"][index]
 
-    # TODO: check if this is correct behavior
     if dep_type == "ROOT":
         return
 
@@ -86,9 +63,9 @@ def count_context_by_dep(counts, context, word_to_idx, s, index):
             prep_is_head_idx = word_to_idx[s["LEMMA"][row]]
             counts[prep_is_head_idx][(head_idx, 1, (dep_type, s["LEMMA"][index]))] += 1
 
-        # TODO: check what to do if there are more than one prep_is_head
+
         prep_is_head_idx = [i for i in prep_is_head if s['FINE-POS'][i] in ["NN", "NNP", "NNS"]]
-        # prep_is_head_idx = prep_is_head[prep_is_head["FINE-POS"].isin(["NN", "NNP", "NNS"])]
+
         if len(prep_is_head_idx) == 0:
             return
         if s["LEMMA"][prep_is_head_idx[0]] not in word_to_idx:
@@ -110,8 +87,7 @@ def context_counter(sentences, words, words_to_idx, task="full_window"):
     for s in sentences:
         x += 1
         print(f'\r{x}/774859', end='')
-        # used for dep contexts
-        # s.index = np.arange(1, len(s) + 1)
+
         for i, w in enumerate(s["LEMMA"]):
             # only calculate contexts for common words
             if w not in words_to_idx or words_to_idx[w] not in words.keys():
@@ -153,19 +129,17 @@ def count_context_in_range(counts, context, word_to_idx, s, index, window=2, ign
         j += 1
 
 
-def vectorize_counts(context_counts, words, context_list, word_to_idx, threshold=100, dep=False):
+def vectorize_counts(context_counts, words, word_to_idx, threshold=100, dep=False):
     vectors = []
     # iterate over all words
     for idx in words.keys():
-        # counts = combine_dep_contexts(context_counts) if dep else context_counts
         # sort the context counts by frequency
         counts = sorted(context_counts[idx].items(), key=lambda x: x[1], reverse=True)
         # create a vector of zeros and trim the counts to the threshold (100)
         counts = counts[:threshold]
-        # vector = np.zeros(len(words))
+
         vector = np.zeros(len(word_to_idx))
-        # f = filter(lambda x: x[0] in words.keys(), counts) if not dep else filter(lambda x: x[0][0] in words.keys(), counts)
-        # f = filter(lambda x: x[0] in context_list.keys(), counts)
+
         # iterate over the counts and set the corresponding indices to the frequency
         for (context_idx, count) in counts:
             if dep:
@@ -192,15 +166,7 @@ def pmi_from_matrix(matrix):
         = log(matrix[i,j] / row_sums[i] * col_sums[j]) + log(matrix.sum())
         """
         pmi_matrix[i, j] = max(np.log(matrix[i, j] / (row_sums[i] * col_sums[j])) + log_matrix_sum, 0)
-    # for i, row in enumerate(matrix):
-    #     for j, col in enumerate(row):
-    #         if col > 0:
 
-    #             p_xy = matrix[i, j]
-    #             p_x = row_sums[i]
-    #             p_y = col_sums[j]
-    #             pmi = max(0, np.log(p_xy / p_x * p_y) + log_matrix_sum)
-    #             pmi_matrix[i, j] = pmi
     # normalize row-wise
     pmi_matrix = pmi_matrix / np.linalg.norm(pmi_matrix, axis=1)[:, None]
 
@@ -211,79 +177,22 @@ def pmi_from_matrix(matrix):
     return pmi_matrix, sparse_pmi_matrix, fliped_pmi_matrix
 
 
-# def pmi_from_matrix(matrix):
-#     pmi_matrix = np.zeros(matrix.shape)
-#     log_matrix_sum = np.log(matrix.sum())
-#     sparse_pmi_matrix = dict()
-#     fliped_pmi_matrix = dict()
-#     row_sums = matrix.sum(axis=1)
-#     col_sums = matrix.sum(axis=0)
-#     for i, row in enumerate(matrix):
-#         for j, col in enumerate(row):
-#             if col > 0:
-#                 """
-#                 pmi = log(p(x,y) / (p(x) * p(y))) =
-#                 p(x,y) = matrix[i,j] / matrix.sum(), p(x) = row_sums[i] / matrix.sum() , p(y) = col_sums[j] / matrix.sum()
-#                 pmi = log(p(x,y) / (p(x) * p(y))) = log(matrix[i,j] / matrix.sum()) / (row_sums[i] / matrix.sum()) * (col_sums[j] / matrix.sum())
-#                 = log(matrix[i,j] / matrix.sum()) / (row_sums[i] * col_sums[j]/ matrix.sum()^2)) = log((matrix[i,j] / row_sums[i] * col_sums[j]) * matrix.sum())
-#                 = log(matrix[i,j] / row_sums[i] * col_sums[j]) + log(matrix.sum())
-#                 """
-#                 p_xy = matrix[i, j]
-#                 p_x = row_sums[i]
-#                 p_y = col_sums[j]
-#                 pmi = max(0, np.log(p_xy / p_x * p_y) + log_matrix_sum)
-#                 pmi_matrix[i, j] = pmi
-#     # normalize row-wise
-#     pmi_matrix = pmi_matrix / np.linalg.norm(pmi_matrix, axis=1)[:, None]
-#
-#     sparse_pmi_matrix = csr_matrix(pmi_matrix)
-#     rot_matrix = pmi_matrix.T
-#     fliped_pmi_matrix = csr_matrix(rot_matrix)
-#
-#     return pmi_matrix, sparse_pmi_matrix, fliped_pmi_matrix
-
-
-def sparse_matrix_to_dict(matrix):
-    sparse_matrix = dict()
-    for i, row in enumerate(matrix):
-        for j, col in enumerate(row):
-            if col > 0:
-                if i not in sparse_matrix:
-                    sparse_matrix[i] = dict()
-                sparse_matrix[i][j] = col
-    return sparse_matrix
-
-
-def cosine(v1, v2):
-    return np.dot(v1, v2)  # / (np.linalg.norm(v1) * np.linalg.norm(v2))
-
-
 # calculate the similairy vector for word u
 def cosine_with_sparse_matrix(matrix, fliped_matrix, u):
     dt = np.zeros(matrix.shape[0])
-    # ATT(u) = fliped_matrix[u] (u'th row of fliped_matrix)
-    # W(att) = matrix[att] (u'th row of matrix)
+    # ATT(u) = matrix[u] (u'th row of fliped_matrix)
+    # W(att) = fliped_matrix[att] (u'th row of matrix)
     for att in matrix[u].indices:
         for v in fliped_matrix[att].indices:
             dt[v] += matrix[u, att] * fliped_matrix[att, v]
     return dt
 
 
-def cosine_similarity_matrix(pmi_matrix):
-    cosine_matrix = np.zeros(pmi_matrix.shape)
-    for i, row1 in enumerate(pmi_matrix):
-        for j, row2 in enumerate(pmi_matrix):
-            cosine_matrix[i, j] = cosine(row1, row2)
-    return cosine_matrix
-
-
 def calc_pmi(context_list, counts, words, word_to_idx, dep=False):
-    # context_list = {k: v for k, v in context_list.items() if v >= 75}
-    counts_matrix = vectorize_counts(counts, words, context_list, word_to_idx, dep=dep)
+    # make counter matrix
+    counts_matrix = vectorize_counts(counts, words, word_to_idx, dep=dep)
     print(f"shape of co-occurence matrix: {counts_matrix.shape}")
     pmi_matrix, sparse_pmi_matrix, fliped_pmi_matrix = pmi_from_matrix(counts_matrix)
-    # cosine_matrix = cosine_similarity_matrix(pmi_matrix, words)
-    # write_count_to_file(file_name, context_list, idx_to_words)
     return pmi_matrix, sparse_pmi_matrix, fliped_pmi_matrix
 
 
@@ -317,10 +226,6 @@ def filter_words(words, threshold=100):
     for index, (word, count) in enumerate(words):
         if count < threshold:
             return words[:index]
-        # if count>=threshold:
-        #     new_words[word] = count
-        # new_words[word] = count
-    return words[:index]
 
 
 # list generator with yield
@@ -356,7 +261,6 @@ def value_counts(list_of_sentences):
     for sentence in list_of_sentences:
         for word in sentence['LEMMA']:
             counts[word] += 1
-
     return counts.most_common()
 
 
@@ -366,21 +270,15 @@ def main():
 
     file_name = sys.argv[1]
     start = time.time()
-    # df = read_table_from_file(file_name)
+
     print(f"read file: {time.time() - start}")
     start = time.time()
+    # count words
     list_of_sentences = list_generator(file_name)
     words = value_counts(list_of_sentences)
-    # count words
-    # words = df["LEMMA"].value_counts()
     print(f"count words: {time.time() - start}")
     start = time.time()
-    # starts_indexes = df.index[df["ID"] == 1].tolist() + [len(df)]
-    # print(len(starts_indexes))
-    print(f"starts_indexes: {time.time() - start}")
-    start = time.time()
-    # TODO: transfer to generator to save memory
-    # list_of_sentences = [df.iloc[starts_indexes[n] : starts_indexes[n + 1]] for n in range(len(starts_indexes) - 1)]
+
     list_of_sentences = list_generator(file_name)
     print(f"list_of_sentences: {time.time() - start}")
     words = filter_words(words, threshold=75)
