@@ -302,6 +302,7 @@ def main():
     print(f"len of words after filter of 100: {len(words)}")
     words = {word_to_idx[word]: count for word, count in words}
 
+    # for small dataset that is not big enough to store all of the test words
     words_to_test = [word for word in test_words if word in word_to_idx and word_to_idx[word] in words]
 
     # write words to file
