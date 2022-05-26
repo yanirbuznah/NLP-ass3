@@ -1,0 +1,264 @@
+car
+truck
+vehicle
+ford
+formula
+racing
+automobile
+motor
+race
+drive
+bicycle
+stock
+motorcycle
+trailer
+bus
+prototype
+locomotive
+bmw
+carriage
+auto
+toy
+*********
+bus
+passenger rail tram
+tram transport commuter
+rail passenger freight
+commuter commuter train
+train transit rail
+ferry metro terminal
+transit terminal operator
+operator ferry passenger
+driver subway transport
+terminal line ferry
+taxi service service
+metro station subway
+truck tram route
+airport hub car
+transport airport terminus
+railway route traffic
+road freight lane
+line connect operate
+junction operate station
+railroad stop railway
+*********
+hospital
+nursing care nursing
+patient medical library
+medical center kindergarten
+psychiatric health ward
+health facility headquarters (3)
+sick psychiatric institution
+facility nursing airport
+care nurse inn
+nurse rehabilitation patient
+dental physician hotel
+library doctor office
+school treatment chapel (3)
+nh practitioner governor (1 3)
+rehabilitation medicine cambridge
+specialist mental surgeon
+profession specialized convent
+center illness profession
+mental dental camp (3)
+physician public memorial (3)
+headquarters patient school (1)
+*********
+hotel
+resort accommodation resort
+shop inn casino
+casino purchase apartment
+pub chain inn
+mall facility palace
+nightclub plaza nightclub
+plaza tourist building
+brand room cottage
+owner overnight luxury
+store brewery dormitory
+apartment resort brand
+retail site vega
+luxury residence business
+residence retail guest
+palace store store
+bar apartment shop
+shopping floor mansion
+inn dining pub
+cafe building supermarket
+business casino suite
+*********
+gun
+artillery battery mortar
+battery pistol artillery
+bullet fire cannon
+fire armament weapon
+mortar ammunition arm
+rocket artillery ammunition
+tank turret battery
+machine tank grenade
+turret mortar rifle
+rifle weapon fire
+pistol rifle deck
+heavy sniper armour
+weapon enemy roll
+ammunition grenade tank
+shot machine aircraft
+deck shot bomber
+barrel barrel helicopter
+armour firing tube
+powerful trench rocket
+enemy armour leg
+*********
+bomb
+torpedo raid bombing
+explosive explosion submarine
+attack injure sink
+explode luftwaffe explosion
+bombing explode injure
+aircraft target aircraft
+bomber bomber combat
+destroy blast u-boat
+carrier destroy reconnaissance
+terrorist explosive massive
+raid suicide detach
+luftwaffe severely torpedo
+massive drop shell
+fighter weapon rig
+shell fighter bombardment
+blast airfield explosive
+nuclear enemy fighter
+plane badly grenade
+explosion attack accident
+missile kill enemy
+*********
+horse
+bike bike bull
+bicycle jockey cyclist
+bull rider bike
+ride racing animal
+breed ride jockey
+dog cyclist motorcycle
+cyclist race car
+cavalry handicap bicycle
+racing thoroughbred thoroughbred
+dark breeder woman (1 3)
+sheep stake hood (3)
+race breed brigade
+regiment dog driver
+carriage light volunteer (2 3)
+jockey wild battalion
+stable bicycle gun
+pig pig racing
+motorcycle bull kid (3)
+riding hunt sprint
+guard regiment rider
+*********
+fox
+nbc abc cbs
+network cbs abc
+abc affiliate espn
+cnn programming entertainment
+television channel cbc
+broadcast espn broadcast
+pb affiliation radio (1)
+anchor network network
+news broadcast tv
+tv broadcasting cnn
+espn news programming (3)
+broadcasting tv pb (3)
+radio television television
+bbc radio bbc
+cbc sitcom channel
+channel cbc broadcasting
+programming televise cable
+sony anchor nintendo (3)
+show broadcaster news
+mtv newscast h (3)
+*********
+table
+bottom row spot
+row below update
+column following database
+top contain row
+spot bottom level
+summarize summarize system
+below level water (3)
+second fixture column (1)
+level heading top
+flat top report
+pool third gift (2 3)
+extract second lake (2)
+illustrate first orbit (3)
+update add salt (3)
+tournament redundant flat
+addition tournament season
+content information content
+indicate index temperature
+comparison all player (2 3)
+following ranking heading
+*********
+bowl
+bowler consecutive selection
+league steelers wrestling
+afl wicket all-star
+quiz bat all-american
+win raider parade
+pro inning cup
+serie cowboy golf
+junior super handball
+consecutive pro soccer
+inaugural batting score
+ncaa score weekend
+all-star bowler ring
+victory bronco classic
+tennis playoff consecutive
+golf batsman tennis
+tournament starter triangle (3)
+afc rose league (2)
+match ncaa inaugural (3)
+game touchdown playoff
+wrestling colt spin (2)
+*********
+guitar
+bass drum drum
+keyboard acoustic piano
+piano instrument flute
+vocal percussion instrument
+acoustic keyboard keyboard
+instrument vocal vocal
+solo rhythm trumpet
+violin saxophone guitarist
+saxophone backing saxophone
+flute guitarist violin
+string flute solo
+cello trumpet tenor
+trumpet lineup acoustic
+percussion string ensemble
+ensemble piano cello
+vocalist line-up lesson
+rhythm vocalist melody
+organ band soprano
+sing solo concerto
+backing bassist string
+*********
+piano
+flute cello cello
+cello flute flute
+op concerto concerto
+concerto sonata sonata
+sonata op viola
+guitar viola bass
+viola quartet guitar
+trumpet percussion op
+solo instrument trumpet
+saxophone guitar solo
+bass trumpet percussion
+keyboard trio horn
+percussion composition saxophone
+soloist saxophone keyboard
+string string alto
+drum violinist quartet
+organ bass soloist
+ensemble keyboard lesson
+orchestra pianist soprano
+acoustic acoustic tenor
+*********
