@@ -1,24 +1,24 @@
 car
-truck vehicle driver
-vehicle motor racing
-ford driver motor
-formula drive service
-racing racing race
-automobile truck truck
-motor automobile motorcycle
-race chevrolet formula
-drive auto traffic
-bicycle toyota carriage
-stock gt boat
-motorcycle formula high-speed
-trailer nascar horse
-bus race terminal
-prototype motorcycle bmw
-locomotive wagon bus
-bmw bmw auto
-carriage crash ambulance
-auto speed chevrolet
-toy drunk stock
+truck
+vehicle
+ford
+formula
+racing
+automobile
+motor
+race
+drive
+bicycle
+stock
+motorcycle
+trailer
+bus
+prototype
+locomotive
+bmw
+carriage
+auto
+toy
 *********
 bus
 passenger rail tram
@@ -47,22 +47,22 @@ nursing care nursing
 patient medical library
 medical center kindergarten
 psychiatric health ward
-health facility headquarters
+health facility headquarters (3)
 sick psychiatric institution
 facility nursing airport
 care nurse inn
 nurse rehabilitation patient
 dental physician hotel
 library doctor office
-school treatment chapel
-nh practitioner governor
+school treatment chapel (3)
+nh practitioner governor (1 3)
 rehabilitation medicine cambridge
 specialist mental surgeon
 profession specialized convent
 center illness profession
-mental dental camp
-physician public memorial
-headquarters patient school
+mental dental camp (3)
+physician public memorial (3)
+headquarters patient school (1)
 *********
 hotel
 resort accommodation resort
@@ -140,15 +140,15 @@ dog cyclist motorcycle
 cyclist race car
 cavalry handicap bicycle
 racing thoroughbred thoroughbred
-dark breeder woman
-sheep stake hood
+dark breeder woman (1 3)
+sheep stake hood (3)
 race breed brigade
 regiment dog driver
-carriage light volunteer
+carriage light volunteer (2 3)
 jockey wild battalion
 stable bicycle gun
 pig pig racing
-motorcycle bull kid
+motorcycle bull kid (3)
 riding hunt sprint
 guard regiment rider
 *********
@@ -159,20 +159,20 @@ abc affiliate espn
 cnn programming entertainment
 television channel cbc
 broadcast espn broadcast
-pb affiliation radio
+pb affiliation radio (1)
 anchor network network
 news broadcast tv
 tv broadcasting cnn
-espn news programming
-broadcasting tv pb
+espn news programming (3)
+broadcasting tv pb (3)
 radio television television
 bbc radio bbc
 cbc sitcom channel
 channel cbc broadcasting
 programming televise cable
-sony anchor nintendo
+sony anchor nintendo (3)
 show broadcaster news
-mtv newscast h
+mtv newscast h (3)
 *********
 table
 bottom row spot
@@ -181,19 +181,19 @@ column following database
 top contain row
 spot bottom level
 summarize summarize system
-below level water
-second fixture column
+below level water (3)
+second fixture column (1)
 level heading top
 flat top report
-pool third gift
-extract second lake
-illustrate first orbit
-update add salt
+pool third gift (2 3)
+extract second lake (2)
+illustrate first orbit (3)
+update add salt (3)
 tournament redundant flat
 addition tournament season
 content information content
 indicate index temperature
-comparison all player
+comparison all player (2 3)
 following ranking heading
 *********
 bowl
@@ -212,11 +212,11 @@ all-star bowler ring
 victory bronco classic
 tennis playoff consecutive
 golf batsman tennis
-tournament starter triangle
-afc rose league
-match ncaa inaugural
+tournament starter triangle (3)
+afc rose league (2)
+match ncaa inaugural (3)
 game touchdown playoff
-wrestling colt spin
+wrestling colt spin (2)
 *********
 guitar
 bass drum drum

@@ -12,6 +12,7 @@ FUNCTION_WORDS = {
     "of",
     "and",
     "a",
+    "an",
     "in",
     "is",
     "it",
@@ -19,6 +20,22 @@ FUNCTION_WORDS = {
     "that",
     "he",
     "she",
+    "was",
+    "for",
+    "on",
+    "are",
+    "with",
+    "as",
+    "I",
+    "his",
+    "they",
+    "be",
+    "at",
+    "over",
+    "below",
+    "have",
+
+
 }
 FUNCTION_WORDS.update({i for i in list(string.printable)})
 
@@ -214,7 +231,7 @@ def calc_similar_to_words(words, pmi_matrix, flipped_pmi_matrix, word_to_idx):
 
 
 def write_to_file_most_similars(similar_full_window, similar_2_window, similar_dep, words_to_test, idx_to_words):
-    with open("top20.txt", "w") as f:
+    with open("top20 gold.txt", "w") as f:
         for i, word in enumerate(words_to_test):
             f.write(f"{word}\n")
             for x, y, z in zip(similar_2_window[i], similar_full_window[i], similar_dep[i]):
@@ -263,6 +280,13 @@ def value_counts(list_of_sentences):
             counts[word] += 1
     return counts.most_common()
 
+
+def context_similarity(pmi_matrix, test_words, words_to_idx, idx_to_words, k=20):
+    similarities  = []
+    for word in test_words:
+        x = np.argsort(pmi_matrix[words_to_idx[word]])[-k:][::-1]
+        similarities.append([idx_to_words[i] for i in x])
+    return similarities
 
 def write_best_contexts_to_file(pmi_matrix, test_words,words_to_idx, idx_to_words,file_name='top20contexts.txt',k=20):
     with open(file_name,'w', encoding='utf-8') as f:
@@ -321,6 +345,7 @@ def main():
     similariries_full_window = calc_similar_to_words(words_to_test, sparse_matrix_full, fliped_sparse_matrix_full,
                                                      word_to_idx)
     print("calc_similar_to_words: ", time.time() - start)
+    full_window_similarities = context_similarity(pmi_matrix_full_window, words_to_test, word_to_idx, idx_to_word)
     write_best_contexts_to_file(pmi_matrix_full_window, words_to_test, word_to_idx, idx_to_word,file_name='top20contexts_full.txt')
 
 

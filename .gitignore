@@ -5,4 +5,4 @@ data/bow5.words
 data/wikipedia.sample.trees.lemmatizedsmall
 data/deps.words
 data/bow5.contexts
-top20.txt
+top20 gold.txt
