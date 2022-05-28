@@ -37,6 +37,7 @@ FUNCTION_WORDS = {
 
 
 }
+# single letter words
 FUNCTION_WORDS.update({i for i in list(string.printable)})
 
 
